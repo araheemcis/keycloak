@@ -37,7 +37,13 @@ service:
   nodePorts:
     http: 30280
     https: 30281
-
+# Force expose HTTPS port on the service even when chart tls.enabled is false
+  extraPorts:
+    - name: https
+      port: 8443
+      targetPort: 8443
+      nodePort: 30281
+      protocol: TCP
 http:
   relativePath: "/"
 
