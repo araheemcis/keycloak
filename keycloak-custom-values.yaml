@@ -75,6 +75,12 @@ extraEnvVars:
     value: "xforwarded"
   - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
     value: "false"
+  - name: KC_HTTPS_HOST
+    value: "0.0.0.0"
+  - name: KC_HTTP_HOST
+    value: "0.0.0.0"
+
+
 
 livenessProbe:
   enabled: true
