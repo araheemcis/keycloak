@@ -1,0 +1,61 @@
+auth:
+  adminPassword: Wmata1234
+  adminUser: admin
+extraEnvVars:
+- name: KEYCLOAK_DATABASE_HOST
+  value: keycloak-postgresql
+- name: KEYCLOAK_DATABASE_NAME
+  value: keycloak
+- name: KEYCLOAK_DATABASE_USER
+  value: keycloak
+- name: KEYCLOAK_DATABASE_PASSWORD
+  value: Wmata1234
+global:
+  security:
+    allowInsecureImages: true
+image:
+  pullPolicy: IfNotPresent
+  registry: docker.io
+  repository: bitnamilegacy/keycloak
+  tag: latest
+livenessProbe:
+  enabled: true
+  failureThreshold: 12
+  initialDelaySeconds: 180
+  periodSeconds: 10
+  timeoutSeconds: 5
+postgresql:
+  auth:
+    database: keycloak
+    password: Wmata1234
+    postgresPassword: Wmata1234
+    username: keycloak
+  enabled: true
+  fullnameOverride: postgresql
+  image:
+    pullPolicy: IfNotPresent
+    registry: docker.io
+    repository: bitnamilegacy/postgresql
+    tag: latest
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+      storageClass: nfs-client
+production: false
+readinessProbe:
+  enabled: true
+  failureThreshold: 12
+  initialDelaySeconds: 120
+  periodSeconds: 10
+  timeoutSeconds: 5
+service:
+  type: NodePort
+  http:
+    enabled: true
+  ports:
+    http: 8080
+    https: 8443
+  nodePorts:
+    http: 30282   # Port 30280 assigned ONLY to HTTP (8080)
+    https: 30283  # Port 30281 assigned ONLY to HTTPS (8443)
