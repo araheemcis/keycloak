@@ -22,7 +22,7 @@ image:
 livenessProbe:
   enabled: true
   failureThreshold: 12
-  initialDelaySeconds: 180
+  initialDelaySeconds: 300
   periodSeconds: 10
   timeoutSeconds: 5
 
@@ -48,7 +48,7 @@ production: false
 readinessProbe:
   enabled: true
   failureThreshold: 12
-  initialDelaySeconds: 120
+  initialDelaySeconds: 240
   periodSeconds: 10
   timeoutSeconds: 5
 service:
