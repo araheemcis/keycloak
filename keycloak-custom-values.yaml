@@ -34,7 +34,6 @@ service:
 
 http:
   relativePath: "/"
-
 extraEnvVars:
   # Database Connection
   - name: KEYCLOAK_DATABASE_HOST
@@ -46,7 +45,7 @@ extraEnvVars:
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
 
-  # TLS Certificate Files (cert-manager mount)
+  # TLS Certificate Files (from cert-manager secret mount)
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
@@ -56,7 +55,7 @@ extraEnvVars:
   - name: KEYCLOAK_HTTPS_PORT
     value: "8443"
 
-  # Hostname & Proxy Rules (Keycloak 26 Compatibility)
+  # Hostname & Proxy Rules
   - name: KC_HOSTNAME_STRICT
     value: "false"
   - name: KC_HTTP_ENABLED
@@ -66,17 +65,20 @@ extraEnvVars:
   - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
     value: "false"
 
-  # Performance & Truststore Fixes (Fixes "No trust store password provided")
-  - name: KEYCLOAK_TRANSACTION_TIMEOUT
-    value: "900"
-  - name: KC_SPI_TRUSTSTORE_FILE_PASSWORD
-    value: "changeit"
-  - name: KC_SPI_TRUSTSTORE_FILE_HOSTNAME_VERIFICATION_POLICY
-    value: "ANY"
+  # Native Keycloak 26 Truststore & Hostname Verification Options
   - name: KC_TRUSTSTORE_PATHS
     value: "/opt/bitnami/keycloak/certs/tls.crt"
+  - name: KC_TRUSTSTORE_PASSWORD
+    value: "changeit"
+  - name: KC_TLS_HOSTNAME_VERIFIER
+    value: "ANY"
   - name: KC_HTTPS_CLIENT_AUTH
     value: "none"
+
+  # Performance / Timeout Fixes
+  - name: KEYCLOAK_TRANSACTION_TIMEOUT
+    value: "900"
+
 
 livenessProbe:
   enabled: true
