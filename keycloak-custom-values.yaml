@@ -3,7 +3,7 @@ auth:
   adminUser: admin
 extraEnvVars:
 - name: KEYCLOAK_DATABASE_HOST
-  value: keycloak-postgresql
+  value: postgresql
 - name: KEYCLOAK_DATABASE_NAME
   value: keycloak
 - name: KEYCLOAK_DATABASE_USER
