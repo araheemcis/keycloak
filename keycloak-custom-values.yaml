@@ -14,23 +14,19 @@ image:
 
 production: false
 
-# DISABLE chart-level TLS wrapper logic to prevent script errors
 tls:
   enabled: false
 
-# DEFINES THE VOLUME FROM THE K8S SECRET
 extraVolumes:
   - name: keycloak-tls-secret
     secret:
       secretName: keycloak-tls-secret
 
-# MOUNTS THE VOLUME INTO THE CONTAINER
 extraVolumeMounts:
   - name: keycloak-tls-secret
     mountPath: /opt/bitnami/keycloak/certs
     readOnly: true
 
-# EXPLICIT SERVICE PORTS: Enables both 30280 (HTTP) and 30281 (HTTPS)
 service:
   type: NodePort
   http:
@@ -56,17 +52,15 @@ extraEnvVars:
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
 
-  # Direct Quarkus TLS Mount
+  # Native Keycloak 26 (Quarkus) TLS Configuration
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
     value: "/opt/bitnami/keycloak/certs/tls.key"
-  - name: KEYCLOAK_ENABLE_HTTPS
-    value: "true"
-  - name: KEYCLOAK_HTTPS_PORT
+  - name: KC_HTTPS_PORT
     value: "8443"
 
-  # Proxy / Hostname settings
+  # Proxy & Hostname settings
   - name: KC_HOSTNAME_STRICT
     value: "false"
   - name: KC_HTTP_ENABLED
