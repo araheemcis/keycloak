@@ -36,6 +36,7 @@ http:
   relativePath: "/"
 
 extraEnvVars:
+  # Database Connection
   - name: KEYCLOAK_DATABASE_HOST
     value: postgresql
   - name: KEYCLOAK_DATABASE_NAME
@@ -44,6 +45,8 @@ extraEnvVars:
     value: keycloak
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
+
+  # TLS Certificate Files (from cert-manager secret mount)
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
@@ -52,16 +55,18 @@ extraEnvVars:
     value: "true"
   - name: KEYCLOAK_HTTPS_PORT
     value: "8443"
+
+  # Hostname & Proxy Rules (Keycloak 26 Compatibility)
   - name: KC_HOSTNAME_STRICT
-    value: "false"
-  - name: KC_HOSTNAME_STRICT_HTTPS
     value: "false"
   - name: KC_HTTP_ENABLED
     value: "true"
   - name: KC_PROXY_HEADERS
     value: "xforwarded"
   - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
-    value: "true"
+    value: "false"
+
+  # Performance & Truststore Fixes
   - name: KEYCLOAK_TRANSACTION_TIMEOUT
     value: "900"
   - name: KC_SPI_TRUSTSTORE_FILE_PASSWORD
@@ -81,7 +86,6 @@ readinessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
 
-# Reverted back to your exact working PostgreSQL configuration
 postgresql:
   enabled: true
   fullnameOverride: postgresql
