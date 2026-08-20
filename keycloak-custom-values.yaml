@@ -10,6 +10,7 @@ extraEnvVars:
   value: keycloak
 - name: KEYCLOAK_DATABASE_PASSWORD
   value: Wmata1234
+
 global:
   security:
     allowInsecureImages: true
@@ -24,6 +25,7 @@ livenessProbe:
   initialDelaySeconds: 180
   periodSeconds: 10
   timeoutSeconds: 5
+
 postgresql:
   auth:
     database: keycloak
