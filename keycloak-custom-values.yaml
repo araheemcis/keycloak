@@ -46,7 +46,7 @@ extraEnvVars:
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
 
-  # TLS Certificate Files (from cert-manager secret mount)
+  # TLS Certificate Files (cert-manager mount)
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
@@ -66,11 +66,17 @@ extraEnvVars:
   - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
     value: "false"
 
-  # Performance & Truststore Fixes
+  # Performance & Truststore Fixes (Fixes "No trust store password provided")
   - name: KEYCLOAK_TRANSACTION_TIMEOUT
     value: "900"
   - name: KC_SPI_TRUSTSTORE_FILE_PASSWORD
     value: "changeit"
+  - name: KC_SPI_TRUSTSTORE_FILE_HOSTNAME_VERIFICATION_POLICY
+    value: "ANY"
+  - name: KC_TRUSTSTORE_PATHS
+    value: "/opt/bitnami/keycloak/certs/tls.crt"
+  - name: KC_HTTPS_CLIENT_AUTH
+    value: "none"
 
 livenessProbe:
   enabled: true
