@@ -12,7 +12,6 @@ image:
   repository: bitnamilegacy/keycloak
   tag: latest
 
-# SWITCH TO FALSE: Disables Quarkus strict truststore enforcement
 production: false
 
 tls:
@@ -37,6 +36,14 @@ http:
   relativePath: "/"
 
 extraEnvVars:
+  # Bitnami Entrypoint Script Truststore Password Fix
+  - name: KEYCLOAK_TRUSTSTORE_PASSWORD
+    value: "changeit"
+  - name: KEYCLOAK_SPI_TRUSTSTORE_FILE_PASSWORD
+    value: "changeit"
+  - name: KC_TRUSTSTORE_PASSWORD
+    value: "changeit"
+
   # Database Connection
   - name: KEYCLOAK_DATABASE_HOST
     value: postgresql
@@ -66,12 +73,6 @@ extraEnvVars:
     value: "xforwarded"
   - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
     value: "false"
-
-  # Truststore Fallbacks
-  - name: KC_TRUSTSTORE_PASSWORD
-    value: "changeit"
-  - name: KC_SPI_TRUSTSTORE_FILE_PASSWORD
-    value: "changeit"
 
 livenessProbe:
   enabled: true
