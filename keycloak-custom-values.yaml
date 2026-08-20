@@ -14,11 +14,10 @@ image:
 
 production: false
 
-# DISABLE chart-level TLS wrapper logic to stop forced truststore injection
 tls:
   enabled: false
 
-# Explicitly mount your cert-manager TLS secret
+# Mount cert-manager secret directly
 extraSecretNames:
   - keycloak-tls-secret
 
@@ -27,6 +26,7 @@ extraVolumeMounts:
     mountPath: /opt/bitnami/keycloak/certs
     readOnly: true
 
+# EXPLICIT SERVICE PORTS: Enables both 30280 (HTTP) and 30281 (HTTPS)
 service:
   type: NodePort
   http:
@@ -52,7 +52,7 @@ extraEnvVars:
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
 
-  # Direct Quarkus HTTPS Configuration (Using Mounted Secret)
+  # Quarkus Direct TLS Mount
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
@@ -62,7 +62,7 @@ extraEnvVars:
   - name: KEYCLOAK_HTTPS_PORT
     value: "8443"
 
-  # Proxy / Hostname Settings
+  # Proxy / Hostname settings
   - name: KC_HOSTNAME_STRICT
     value: "false"
   - name: KC_HTTP_ENABLED
