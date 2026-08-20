@@ -14,13 +14,17 @@ image:
 
 production: false
 
+# DISABLE chart-level TLS wrapper logic to prevent script errors
 tls:
   enabled: false
 
-# Mount cert-manager secret directly
-extraSecretNames:
-  - keycloak-tls-secret
+# DEFINES THE VOLUME FROM THE K8S SECRET
+extraVolumes:
+  - name: keycloak-tls-secret
+    secret:
+      secretName: keycloak-tls-secret
 
+# MOUNTS THE VOLUME INTO THE CONTAINER
 extraVolumeMounts:
   - name: keycloak-tls-secret
     mountPath: /opt/bitnami/keycloak/certs
@@ -52,7 +56,7 @@ extraEnvVars:
   - name: KEYCLOAK_DATABASE_PASSWORD
     value: Wmata1234
 
-  # Quarkus Direct TLS Mount
+  # Direct Quarkus TLS Mount
   - name: KC_HTTPS_CERTIFICATE_FILE
     value: "/opt/bitnami/keycloak/certs/tls.crt"
   - name: KC_HTTPS_CERTIFICATE_KEY_FILE
